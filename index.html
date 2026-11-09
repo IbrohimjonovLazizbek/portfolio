@@ -599,34 +599,35 @@
     @media (max-width: 768px){
       .nav-links{display:none}
       .mobile-menu-btn{display:flex}
-      .nav{padding:14px 18px}
+      .nav{padding:14px 16px}
       .nav-cv-btn{display:none}
       .hero{min-height:100svh;justify-content:flex-start}
-      .hero-inner{padding:clamp(85px,14vh,115px) 18px 40px;max-width:100%}
-      .hero-title{font-size:clamp(32px,9.5vw,46px);letter-spacing:-.02em;line-height:1.06}
-      .hero-sub{font-size:15px;line-height:1.55;max-width:100%}
-      .hero-tags{gap:6px;justify-content:center;margin:18px 0 0}
-      .hero-tags span{font-size:11.5px;padding:5px 11px}
-      .hero-actions{flex-direction:column;width:100%;max-width:320px;margin:30px auto 0;gap:11px}
-      .hero-actions .btn{width:100%;justify-content:center;padding:13px 20px;font-size:14.5px}
-      .logos{padding:0 16px 36px}
-      .logos-row{gap:16px;flex-wrap:wrap;justify-content:center}
-      .logo{font-size:13.5px}
-      .section{padding:clamp(60px,14vw,95px) 18px}
-      .section-head h2{font-size:clamp(26px,7.5vw,36px)}
-      .section-head p{font-size:15px;line-height:1.6}
-      .feature-grid{grid-template-columns:1fr;gap:16px}
-      .feature-card{padding:26px 20px}
-      .showcase-grid{gap:28px}
-      .dash-bars{height:115px;gap:6px}
-      .dash-row{grid-template-columns:85px 1fr;font-size:12px}
-      .stats{grid-template-columns:repeat(2,1fr);gap:12px}
-      .stat-card{padding:20px 16px}
-      .stat-num{font-size:clamp(28px,7.5vw,38px)}
-      .cta-card{padding:38px 20px;border-radius:20px;text-align:center}
-      .cta-card .hero-actions{flex-direction:column;width:100%;max-width:300px;margin:22px auto 0}
-      .footer{flex-direction:column;gap:36px;padding-top:36px;margin-top:40px}
-      .footer-cols{grid-template-columns:repeat(2,1fr);gap:24px}
+      .hero-inner{padding:clamp(85px,12vh,110px) 16px 36px;width:100%;max-width:100%;box-sizing:border-box}
+      .eyebrow{font-size:11px;letter-spacing:.11em;line-height:1.45;white-space:normal;margin-bottom:14px;word-break:break-word}
+      .hero-title{font-size:clamp(28px,8.5vw,42px);letter-spacing:-.02em;line-height:1.06;word-break:break-word}
+      .hero-sub{font-size:14.5px;line-height:1.55;max-width:100%}
+      .hero-tags{gap:6px;justify-content:center;margin:16px 0 0}
+      .hero-tags span{font-size:11px;padding:4px 9px}
+      .hero-actions{flex-direction:column;width:100%;max-width:300px;margin:26px auto 0;gap:10px}
+      .hero-actions .btn{width:100%;justify-content:center;padding:12px 18px;font-size:14px}
+      .logos{padding:0 16px 32px}
+      .logos-row{gap:14px;flex-wrap:wrap;justify-content:center}
+      .logo{font-size:13px}
+      .section{padding:clamp(56px,14vw,90px) 16px}
+      .section-head h2{font-size:clamp(24px,7vw,32px)}
+      .section-head p{font-size:14.5px;line-height:1.6}
+      .feature-grid{grid-template-columns:1fr;gap:14px}
+      .feature-card{padding:22px 18px}
+      .showcase-grid{gap:26px}
+      .dash-bars{height:110px;gap:5px}
+      .dash-row{grid-template-columns:80px 1fr;font-size:11.5px}
+      .stats{grid-template-columns:repeat(2,1fr);gap:10px}
+      .stat-card{padding:18px 14px}
+      .stat-num{font-size:clamp(26px,7vw,36px)}
+      .cta-card{padding:34px 18px;border-radius:20px;text-align:center}
+      .cta-card .hero-actions{flex-direction:column;width:100%;max-width:280px;margin:20px auto 0}
+      .footer{flex-direction:column;gap:32px;padding-top:32px;margin-top:36px}
+      .footer-cols{grid-template-columns:repeat(2,1fr);gap:20px}
     }
     @media (max-width: 480px){
       .stats{grid-template-columns:1fr}
@@ -667,15 +668,8 @@
           <a href="#solutions">Telemetry &amp; Stack</a>
           <a href="#top">Network Globe</a>
           <a href="#cta">Contact</a>
-          <a href="https://jedi.uz/login" style="color:var(--accent);font-weight:600;display:inline-flex;align-items:center;gap:4px;">
-            <span>JEDI ERP</span>
-            <span style="font-size:11px;">→</span>
-          </a>
-        </div>
+          </div>
         <div class="nav-actions">
-          <a href="https://jedi.uz/login" class="btn btn-outline nav-erp-btn" style="padding:9px 16px;font-size:13.5px;border-color:rgba(93,240,168,.4);color:var(--accent)">
-            <span>JEDI ERP</span> <span>→</span>
-          </a>
           <button type="button" class="btn btn-ghost nav-cv-btn" id="download-cv-nav">Download CV</button>
           <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
             <span class="bar"></span>
@@ -1252,6 +1246,7 @@
     let fiberPacketMat = null;
     let ixpHubMat = null;
     let earthShaderMat = null;
+    let fiberSpeedMult = 1.0;
 
     function buildColoredEarthAndNetwork() {
       const sphereGeo = new THREE.SphereGeometry(CONFIG.planetRadius, 192, 192);
