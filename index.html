@@ -1279,236 +1279,39 @@
       return v;
     }
 
-    // High-Resolution 1024x512 Realistic Colored Equirectangular Earth + Night Lights + Cloud Textures
-    function createHighResEarthTextures() {
-      const W = 1024;
-      const H = 512;
-
-      const dayCvs = document.createElement('canvas');
-      dayCvs.width = W; dayCvs.height = H;
-      const dayCtx = dayCvs.getContext('2d');
-      const dayImg = dayCtx.createImageData(W, H);
-      const dData = dayImg.data;
-
-      const nightCvs = document.createElement('canvas');
-      nightCvs.width = W; nightCvs.height = H;
-      const nightCtx = nightCvs.getContext('2d');
-      nightCtx.fillStyle = '#000000';
-      nightCtx.fillRect(0, 0, W, H);
-
-      const CONTINENT_BLOBS = [
-        [58, -115, 16, 28, 1.0], [46, -100, 15, 24, 1.1], [36, -98, 12, 20, 1.0],
-        [64, -150, 9, 18, 0.9], [23, -102, 8, 9, 0.85], [14, -86, 5, 7, 0.75],
-        [72, -42, 10, 18, 0.95],
-        [4, -66, 10, 14, 0.95], [-10, -56, 15, 16, 1.15], [-24, -60, 14, 11, 1.0],
-        [-42, -68, 13, 6, 0.9],
-        [48, 12, 11, 18, 0.95], [52, 28, 12, 18, 1.0], [62, 16, 9, 10, 0.88],
-        [41, -4, 5, 6, 0.85], [54, -2, 4.5, 4, 0.82], [42, 13, 5, 4, 0.8],
-        [24, 12, 14, 24, 1.15], [8, 22, 13, 20, 1.1], [-8, 24, 14, 14, 1.05],
-        [-24, 24, 11, 10, 0.95], [-19, 46, 6, 3.5, 0.8],
-        [25, 45, 10, 12, 0.98], [34, 48, 8, 12, 0.95], [39, 35, 5, 9, 0.9],
-        [42, 66, 12, 20, 1.15],
-        [58, 65, 14, 35, 1.1], [62, 105, 14, 38, 1.1], [64, 145, 11, 25, 0.95],
-        [36, 104, 14, 22, 1.15], [28, 114, 10, 12, 1.0], [22, 79, 12, 10, 1.05],
-        [16, 101, 8, 7, 0.88], [3, 102, 5, 4, 0.78], [-2, 114, 6, 12, 0.78],
-        [36, 138, 6, 4.5, 0.82],
-        [-25, 134, 12, 19, 1.1], [-42, 173, 5, 4, 0.78],
-        [-82, 0, 9, 180, 1.1],
-      ];
-
-      function getLandElevation(lat, lon) {
-        let influence = 0;
-        for (let i = 0; i < CONTINENT_BLOBS.length; i++) {
-          const b = CONTINENT_BLOBS[i];
-          const dLat = (lat - b[0]) / b[2];
-          let dLon = Math.abs(lon - b[1]);
-          if (dLon > 180) dLon = 360 - dLon;
-          dLon /= b[3];
-          const d2 = dLat * dLat + dLon * dLon;
-          if (d2 < 2.6) {
-            const w = Math.exp(-d2 * 1.45) * b[4];
-            if (w > influence) influence += w * 0.72;
-            else influence += w * 0.35;
-          }
-        }
-
-        const seas = [
-          [36, 18, 4.2, 15],
-          [20, 38, 7.0, 2.5],
-          [26, 52, 2.5, 4.5],
-          [43, 34, 3.0, 5.5],
-          [42, 51, 4.5, 2.5],
-          [24, -90, 5.5, 7.5]
-        ];
-        for (let s = 0; s < seas.length; s++) {
-          const sc = seas[s];
-          const dy = (lat - sc[0]) / sc[2];
-          const dx = (lon - sc[1]) / sc[3];
-          const sd2 = dx * dx + dy * dy;
-          if (sd2 < 1.5) {
-            influence -= Math.exp(-sd2 * 1.8) * 0.75;
-          }
-        }
-
-        const nx = (lon + 180) * 0.045;
-        const ny = (lat + 90) * 0.045;
-        const n = fbm(nx, ny, 5);
-        const detail = valueNoise(nx * 4.5, ny * 4.5) * 0.16;
-        return influence + (n - 0.48) * 0.62 + detail - 0.42;
-      }
-
-      for (let y = 0; y < H; y++) {
-        const lat = 90 - (y / H) * 180;
-        const absLat = Math.abs(lat);
-        for (let x = 0; x < W; x++) {
-          const lon = (x / W) * 360 - 180;
-          const idx = (y * W + x) * 4;
-          const elev = getLandElevation(lat, lon);
-          const humidNoise = fbm((lon + 180) * 0.03 + 11.3, (lat + 90) * 0.03 + 7.1, 4);
-
-          let r = 0, g = 0, b = 0;
-
-          if (elev <= 0) {
-            const depth = clamp(-elev * 2.2, 0, 1);
-            const shelf = Math.pow(1.0 - depth, 2.6);
-            r = Lerp(5, 12, 1 - depth) + shelf * 16;
-            g = Lerp(22, 58, 1 - depth) + shelf * 68;
-            b = Lerp(52, 112, 1 - depth) + shelf * 62;
-          } else {
-            const h = clamp(elev * 1.9, 0, 1);
-
-            let desertMask = 0;
-            if (absLat > 12 && absLat < 47) {
-              desertMask = clamp(1.0 - Math.abs(absLat - 27) / 18, 0, 1) * clamp(1.25 - humidNoise * 1.45, 0, 1);
-            }
-            if ((lat > 15 && lat < 34 && lon > -15 && lon < 58) || (lat > 36 && lat < 46 && lon > 52 && lon < 72)) {
-              desertMask = clamp(desertMask + 0.55, 0, 1);
-            }
-
-            const forestR = Lerp(24, 48, humidNoise);
-            const forestG = Lerp(92, 134, humidNoise);
-            const forestB = Lerp(52, 68, humidNoise);
-
-            const steppeR = 88, steppeG = 122, steppeB = 56;
-
-            const desertR = Lerp(178, 204, humidNoise);
-            const desertG = Lerp(134, 156, humidNoise);
-            const desertB = Lerp(74, 92, humidNoise);
-
-            const grassMix = clamp((humidNoise - 0.35) * 2.2, 0, 1);
-            let landR = Lerp(steppeR, forestR, grassMix);
-            let landG = Lerp(steppeG, forestG, grassMix);
-            let landB = Lerp(steppeB, forestB, grassMix);
-
-            r = Lerp(landR, desertR, desertMask);
-            g = Lerp(landG, desertG, desertMask);
-            b = Lerp(landB, desertB, desertMask);
-
-            if (h > 0.48) {
-              const mFactor = clamp((h - 0.48) / 0.38, 0, 1);
-              r = Lerp(r, 132, mFactor);
-              g = Lerp(g, 126, mFactor);
-              b = Lerp(b, 118, mFactor);
-            }
-            if (h > 0.78) {
-              const snow = clamp((h - 0.78) / 0.22, 0, 1);
-              r = Lerp(r, 224, snow);
-              g = Lerp(g, 234, snow);
-              b = Lerp(b, 245, snow);
-            }
-
-            if (absLat > 74) {
-              const ice = clamp((absLat - 74) / 10, 0, 1);
-              r = Lerp(r, 215, ice);
-              g = Lerp(g, 228, ice);
-              b = Lerp(b, 242, ice);
-            }
-          }
-
-          dData[idx] = clamp(Math.round(r), 0, 255);
-          dData[idx + 1] = clamp(Math.round(g), 0, 255);
-          dData[idx + 2] = clamp(Math.round(b), 0, 255);
-          dData[idx + 3] = 255;
-        }
-      }
-      dayCtx.putImageData(dayImg, 0, 0);
-
-      const CITY_CLUSTERS = [
-        [41.31, 69.28, 16, 1.0], // Tashkent TAS-01
-        [39.65, 66.96, 10, 0.85],
-        [43.22, 76.85, 11, 0.85],
-        [51.50, -0.12, 18, 1.0], [50.11, 8.68, 18, 1.0], [48.85, 2.35, 16, 0.95],
-        [52.37, 4.90, 14, 0.9], [40.41, -3.70, 13, 0.85], [41.90, 12.49, 13, 0.85],
-        [55.75, 37.61, 18, 1.0], [41.01, 28.97, 15, 0.9], [30.04, 31.23, 15, 0.9],
-        [25.20, 55.27, 15, 0.95], [19.07, 72.87, 17, 0.95], [28.61, 77.20, 17, 0.95],
-        [12.97, 77.59, 14, 0.9], [1.35, 103.82, 16, 1.0], [13.75, 100.50, 13, 0.85],
-        [22.32, 114.17, 17, 1.0], [31.23, 121.47, 18, 1.0], [39.90, 116.40, 18, 1.0],
-        [37.56, 126.97, 16, 0.95], [35.68, 139.65, 19, 1.0], [34.69, 135.50, 14, 0.9],
-        [40.71, -74.00, 19, 1.0], [38.90, -77.03, 15, 0.9], [41.87, -87.62, 15, 0.9],
-        [25.76, -80.19, 14, 0.88], [37.38, -122.08, 17, 0.95], [34.05, -118.24, 17, 0.95],
-        [47.60, -122.33, 13, 0.85], [19.43, -99.13, 15, 0.9], [-23.55, -46.63, 16, 0.95],
-        [-34.60, -58.38, 14, 0.85], [-33.86, 151.20, 14, 0.9], [-26.20, 28.04, 13, 0.82],
-        [6.52, 3.37, 13, 0.82]
-      ];
-
-      CITY_CLUSTERS.forEach(([lat, lon, rad, intensity]) => {
-        const cx = ((lon + 180) / 360) * W;
-        const cy = ((90 - lat) / 180) * H;
-        const grad = nightCtx.createRadialGradient(cx, cy, 0, cx, cy, rad);
-        grad.addColorStop(0, `rgba(255, 220, 130, ${intensity})`);
-        grad.addColorStop(0.35, `rgba(255, 175, 70, ${intensity * 0.65})`);
-        grad.addColorStop(1, 'rgba(255, 140, 30, 0)');
-        nightCtx.fillStyle = grad;
-        nightCtx.beginPath();
-        nightCtx.arc(cx, cy, rad, 0, Math.PI * 2);
-        nightCtx.fill();
-
-        for (let s = 0; s < 22; s++) {
-          const ang = s * 2.39996;
-          const dist = Math.sqrt(s / 22) * rad * 1.15;
-          const sx = cx + Math.cos(ang) * dist;
-          const sy = cy + Math.sin(ang) * dist * 0.75;
-          nightCtx.fillStyle = `rgba(255, 210, 120, ${0.45 * (1 - s / 24)})`;
-          nightCtx.fillRect(sx, sy, 1.6, 1.6);
-        }
-      });
-
-      const planetTex = new THREE.CanvasTexture(dayCvs);
-      planetTex.encoding = THREE.sRGBEncoding;
-      planetTex.wrapS = THREE.RepeatWrapping;
-      planetTex.wrapT = THREE.ClampToEdgeWrapping;
-      planetTex.needsUpdate = true;
-
-      const nightTex = new THREE.CanvasTexture(nightCvs);
-      nightTex.encoding = THREE.sRGBEncoding;
-      nightTex.wrapS = THREE.RepeatWrapping;
-      nightTex.wrapT = THREE.ClampToEdgeWrapping;
-      nightTex.needsUpdate = true;
-
-      const cloudCvs = document.createElement('canvas');
-      cloudCvs.width = 512; cloudCvs.height = 256;
-      const cCtx = cloudCvs.getContext('2d');
-      const cImg = cCtx.createImageData(512, 256);
-      const cData = cImg.data;
-      for (let y = 0; y < 256; y++) {
-        for (let x = 0; x < 512; x++) {
-          const i = (y * 512 + x) * 4;
-          const n = fbm(x * 0.028, y * 0.055, 4);
-          const wisp = clamp((n - 0.50) * 2.8, 0, 1);
-          cData[i] = 235;
-          cData[i + 1] = 245;
-          cData[i + 2] = 255;
-          cData[i + 3] = Math.round(wisp * 185);
-        }
-      }
-      cCtx.putImageData(cImg, 0, 0);
-      const cloudTex = new THREE.CanvasTexture(cloudCvs);
-      cloudTex.wrapS = THREE.RepeatWrapping;
-      cloudTex.wrapT = THREE.ClampToEdgeWrapping;
-      cloudTex.needsUpdate = true;
-
-      return { planetTex, nightTex, cloudTex, getLandElevation };
+    // High-Resolution NASA 2048x1024 Blue Marble + Black Marble Earth System
+    function getLandElevation(lat, lon) {
+      const absLat = Math.abs(lat);
+      if (absLat > 72) return -1.0;
+      if (lat > 10 && lat < 70 && lon > -10 && lon < 140) return 1.0; // Eurasia
+      if (lat > -35 && lat < 37 && lon > -18 && lon < 52) return 1.0; // Africa
+      if (lat > 15 && lat < 70 && lon > -165 && lon < -50) return 1.0; // North America
+      if (lat > -55 && lat < 12 && lon > -82 && lon < -35) return 1.0; // South America
+      if (lat > -40 && lat < -10 && lon > 112 && lon < 155) return 1.0; // Australia
+      return -1.0;
     }
+
+    const texLoader = new THREE.TextureLoader();
+    const maxAniso = (renderer.capabilities && renderer.capabilities.getMaxAnisotropy) ? renderer.capabilities.getMaxAnisotropy() : 8;
+
+    function loadTexture(name) {
+      const basePath = (window.location.pathname.includes('/portfolio') || window.location.hostname.includes('jedi.uz')) ? '/textures/' : 'textures/';
+      const tex = texLoader.load(basePath + name);
+      tex.encoding = THREE.sRGBEncoding;
+      tex.anisotropy = maxAniso;
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.ClampToEdgeWrapping;
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = true;
+      return tex;
+    }
+
+    const dayTex = loadTexture('earth_day.jpg');
+    const nightTex = loadTexture('earth_night.jpg');
+    const normalTex = loadTexture('earth_normal.jpg');
+    const waterTex = loadTexture('earth_water.png');
+    const cloudTex = loadTexture('earth_clouds.png');
 
     let markerMat = null;
     let fiberCableMat = null;
@@ -1517,14 +1320,14 @@
     let earthShaderMat = null;
 
     function buildColoredEarthAndNetwork() {
-      const { planetTex, nightTex, cloudTex, getLandElevation } = createHighResEarthTextures();
-
-      const sphereGeo = new THREE.SphereGeometry(CONFIG.planetRadius, 128, 128);
+      const sphereGeo = new THREE.SphereGeometry(CONFIG.planetRadius, 192, 192);
 
       earthShaderMat = new THREE.ShaderMaterial({
         uniforms: {
-          uDayMap: { value: planetTex },
+          uDayMap: { value: dayTex },
           uNightMap: { value: nightTex },
+          uNormalMap: { value: normalTex },
+          uWaterMap: { value: waterTex },
           uTime: planetTime,
           uSunDir: { value: new THREE.Vector3(-0.75, 0.28, 0.60).normalize() },
           uRimColor: { value: hexToVec3('#38bdf8') },
@@ -1545,6 +1348,8 @@
         fragmentShader: `
           uniform sampler2D uDayMap;
           uniform sampler2D uNightMap;
+          uniform sampler2D uNormalMap;
+          uniform sampler2D uWaterMap;
           uniform float uTime;
           uniform vec3 uSunDir;
           uniform vec3 uRimColor;
@@ -1554,39 +1359,38 @@
           varying vec3 vViewPos;
 
           void main() {
-            vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(vViewPos);
 
-            vec3 baseCol = texture2D(uDayMap, vUv).rgb;
+            vec3 dayColor = texture2D(uDayMap, vUv).rgb;
             vec3 nightLights = texture2D(uNightMap, vUv).rgb;
+            vec3 normalMapSample = texture2D(uNormalMap, vUv).rgb * 2.0 - 1.0;
+            float waterMask = texture2D(uWaterMap, vUv).r;
 
-            float blueDom = baseCol.b - max(baseCol.r, baseCol.g);
-            float waterMask = smoothstep(-0.02, 0.08, blueDom);
+            // Perturb normal using high-res normal map on land
+            vec3 norm = normalize(vNormal + normalMapSample * (1.0 - waterMask) * 0.45);
 
-            vec2 texel = vec2(1.0 / 1024.0, 1.0 / 512.0);
-            float hL = dot(texture2D(uDayMap, vUv - vec2(texel.x, 0.0)).rgb, vec3(0.3, 0.59, 0.11));
-            float hR = dot(texture2D(uDayMap, vUv + vec2(texel.x, 0.0)).rgb, vec3(0.3, 0.59, 0.11));
-            float hD = dot(texture2D(uDayMap, vUv - vec2(0.0, texel.y)).rgb, vec3(0.3, 0.59, 0.11));
-            float hU = dot(texture2D(uDayMap, vUv + vec2(0.0, texel.y)).rgb, vec3(0.3, 0.59, 0.11));
-            vec3 bumpN = normalize(normal + vec3(hL - hR, hD - hU, 0.0) * (1.0 - waterMask) * 2.4);
+            // Day / Night illumination with soft realistic terminator twilight
+            float ndl = dot(norm, uSunDir);
+            float dayFactor = smoothstep(-0.25, 0.40, ndl);
+            float twilight = smoothstep(-0.35, 0.15, ndl) * (1.0 - smoothstep(0.0, 0.40, ndl));
 
-            float ndl = dot(bumpN, uSunDir);
-            float dayFactor = smoothstep(-0.28, 0.45, ndl);
-            float twilight = smoothstep(-0.35, 0.15, ndl) * (1.0 - smoothstep(0.0, 0.45, ndl));
+            // Deep navy/cyan twilight ambient so night side continents remain sharp & readable
+            vec3 litColor = dayColor * mix(0.22, 1.25, dayFactor);
+            litColor += vec3(0.04, 0.14, 0.26) * twilight * 0.35;
 
-            vec3 litColor = baseCol * mix(0.24, 1.18, dayFactor);
-            litColor += vec3(0.05, 0.16, 0.28) * twilight * 0.35;
-
+            // High-contrast specular oceanic glint on day side
             vec3 halfVec = normalize(uSunDir + viewDir);
-            float spec = pow(max(dot(normal, halfVec), 0.0), 48.0);
-            litColor += waterMask * dayFactor * spec * vec3(0.55, 0.78, 0.95) * 0.42;
+            float spec = pow(max(dot(norm, halfVec), 0.0), 32.0);
+            litColor += waterMask * dayFactor * spec * vec3(0.65, 0.88, 1.0) * 0.55;
 
-            float nightMask = smoothstep(0.25, -0.25, ndl);
-            litColor += nightLights * mix(0.32, 1.35, nightMask) * vec3(1.0, 0.82, 0.45);
+            // NASA Black Marble night city lights (vibrant warm amber)
+            float nightMask = smoothstep(0.20, -0.22, ndl);
+            litColor += nightLights * mix(0.25, 1.6, nightMask) * vec3(1.0, 0.82, 0.48);
 
-            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.8);
+            // Atmospheric limb Fresnel glow (focused only on the outer edge, never washes out center)
+            float fresnel = pow(1.0 - max(dot(viewDir, normalize(vNormal)), 0.0), 3.6);
             vec3 rimTint = mix(uRimColor, uRimMint, 0.35);
-            litColor = mix(litColor, rimTint, fresnel * 0.68);
+            litColor = mix(litColor, rimTint, fresnel * 0.65);
 
             gl_FragColor = vec4(litColor, 1.0);
           }
@@ -1599,11 +1403,11 @@
       const landPoints = buildLandMarkers(planetMesh, getLandElevation);
       buildFiberOpticNetwork(planetMesh, landPoints, CONFIG.planetRadius);
 
-      const cGeo = new THREE.SphereGeometry(CONFIG.planetRadius * CONFIG.cloudHeight, 96, 96);
+      const cGeo = new THREE.SphereGeometry(CONFIG.planetRadius * CONFIG.cloudHeight, 160, 160);
       const cMat = new THREE.MeshBasicMaterial({
         map: cloudTex,
         transparent: true,
-        opacity: CONFIG.cloudOpacity,
+        opacity: 0.32,
         depthWrite: false,
         blending: THREE.NormalBlending,
       });
