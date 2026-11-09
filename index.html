@@ -462,199 +462,13 @@
       color:var(--muted-2);
     }
 
-    /* FLOATING SUBMARINE CABLE MAP & BGP TELEMETRY CONSOLE HUD */
-    .network-hud{
-      position:fixed;
-      left:20px;
-      bottom:20px;
-      z-index:20;
-      display:flex;
-      flex-direction:column;
-      gap:9px;
-      width:min(430px, calc(100vw - 32px));
-      padding:13px 15px;
-      border-radius:18px;
-      background:rgba(6,11,26,.84);
-      border:1px solid var(--line-strong);
-      box-shadow:0 22px 55px -12px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.08);
-      backdrop-filter:blur(18px);
-      -webkit-backdrop-filter:blur(18px);
-      font-size:11px;
-      color:var(--muted);
-      transition:border-color .25s ease,box-shadow .25s ease;
-    }
-    .network-hud.overclocked{
-      border-color:rgba(56,189,248,.6);
-      box-shadow:0 22px 60px -10px rgba(56,189,248,.35), inset 0 1px 0 rgba(255,255,255,.14);
-    }
-    .hud-top-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-    }
-    .hud-status{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:var(--ink);
-    }
-    .hud-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 10px var(--accent);
-      animation:hudPulse 1.8s infinite ease-in-out;
-      flex-shrink:0;
-    }
-    .network-hud.overclocked .hud-dot{
-      background:#38bdf8;
-      box-shadow:0 0 14px #38bdf8;
-      animation-duration:.55s;
-    }
-    @keyframes hudPulse{
-      0%,100%{transform:scale(1);opacity:1}
-      50%{transform:scale(1.35);opacity:.65}
-    }
-    .hud-meta{
-      font-family:'JetBrains Mono',monospace;
-      font-size:10px;
-      color:var(--accent);
-      background:rgba(93,240,168,.1);
-      border:1px solid rgba(93,240,168,.24);
-      padding:2px 8px;
-      border-radius:999px;
-      white-space:nowrap;
-    }
-    .hud-ticker{
-      font-family:'JetBrains Mono',monospace;
-      font-size:10.5px;
-      color:#cfe0ff;
-      background:rgba(2,6,18,.65);
-      border:1px solid rgba(150,175,230,.14);
-      border-radius:9px;
-      padding:6px 10px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      overflow:hidden;
-    }
-    .hud-ticker-label{
-      color:var(--muted-2);
-      font-weight:600;
-      flex-shrink:0;
-    }
-    .hud-ticker-val{
-      color:var(--ink);
-      font-weight:500;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .hud-legend{
-      display:flex;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:10px;
-      font-size:10px;
-      color:var(--muted);
-    }
-    .hud-leg-item{
-      display:inline-flex;
-      align-items:center;
-      gap:5px;
-    }
-    .hud-swatch{
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      display:inline-block;
-    }
-    .hud-filters{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:5px;
-    }
-    .hud-filter-btn{
-      appearance:none;
-      border:1px solid rgba(150,175,230,.18);
-      background:rgba(255,255,255,.03);
-      color:var(--muted);
-      font-family:'JetBrains Mono',monospace;
-      font-size:9.5px;
-      font-weight:600;
-      padding:5px 4px;
-      border-radius:7px;
-      cursor:pointer;
-      text-align:center;
-      transition:all .18s ease;
-      white-space:nowrap;
-    }
-    .hud-filter-btn:hover{
-      color:var(--ink);
-      background:rgba(255,255,255,.08);
-    }
-    .hud-filter-btn.active{
-      background:rgba(93,240,168,.16);
-      color:var(--accent);
-      border-color:rgba(93,240,168,.45);
-    }
-    .hud-actions{
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-    .hud-btn{
-      flex:1;
-      appearance:none;
-      border:1px solid rgba(93,240,168,.3);
-      background:rgba(93,240,168,.12);
-      color:var(--accent);
-      font-family:var(--font);
-      font-size:10.5px;
-      font-weight:700;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      padding:6px 10px;
-      border-radius:8px;
-      cursor:pointer;
-      transition:background .2s ease,transform .18s ease,color .2s ease,border-color .2s ease;
-    }
-    .hud-btn:hover{
-      background:rgba(93,240,168,.22);
-      transform:translateY(-1px);
-    }
-    .network-hud.overclocked #hud-overclock-btn{
-      background:linear-gradient(180deg,#38bdf8,#0284c7);
-      color:#021320;
-      border-color:transparent;
-    }
-    .hud-btn-secondary{
-      border-color:rgba(192,132,252,.35);
-      background:rgba(192,132,252,.1);
-      color:#e9d5ff;
-    }
-    .hud-btn-secondary:hover{
-      background:rgba(192,132,252,.22);
-    }
-    .hud-btn-secondary.active{
-      background:linear-gradient(180deg,#c084fc,#9333ea);
-      color:#140326;
-      border-color:transparent;
-    }
-
     /* CV TOAST NOTIFICATION */
     .cv-toast{
       position:fixed;
       right:24px;
       bottom:24px;
       z-index:30;
-      padding:13px 20px;
+      padding:12px 20px;
       border-radius:14px;
       background:rgba(12,20,42,.92);
       border:1px solid rgba(93,240,168,.4);
@@ -674,31 +488,152 @@
       opacity:1;
     }
 
-    /* Responsive Breakpoints */
+    /* MOBILE NAVIGATION DRAWER & HAMBURGER */
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .mobile-menu-btn{
+      display:none;
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line-strong);
+      cursor:pointer;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:5px;
+      padding:0;
+      transition:background .2s ease,border-color .2s ease;
+    }
+    .mobile-menu-btn:hover{
+      background:rgba(255,255,255,.1);
+    }
+    .mobile-menu-btn .bar{
+      width:20px;
+      height:2px;
+      background:var(--ink);
+      border-radius:2px;
+      transition:transform .25s ease,opacity .2s ease;
+    }
+    .mobile-menu-btn.open .bar:nth-child(1){
+      transform:translateY(7px) rotate(45deg);
+    }
+    .mobile-menu-btn.open .bar:nth-child(2){
+      opacity:0;
+    }
+    .mobile-menu-btn.open .bar:nth-child(3){
+      transform:translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-drawer{
+      position:fixed;
+      top:70px;
+      left:14px;
+      right:14px;
+      z-index:90;
+      background:rgba(6,11,26,.95);
+      border:1px solid var(--line-strong);
+      border-radius:20px;
+      box-shadow:0 25px 60px -12px rgba(0,0,0,.92), inset 0 1px 0 rgba(255,255,255,.1);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+      padding:20px;
+      transform:translateY(-16px);
+      opacity:0;
+      pointer-events:none;
+      transition:transform .28s cubic-bezier(.22,.7,.2,1),opacity .25s ease;
+    }
+    .mobile-drawer.open{
+      transform:translateY(0);
+      opacity:1;
+      pointer-events:auto;
+    }
+    .drawer-content{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .drawer-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 16px;
+      border-radius:12px;
+      font-size:15px;
+      font-weight:600;
+      color:var(--ink);
+      background:rgba(255,255,255,.02);
+      border:1px solid transparent;
+      transition:background .18s ease,border-color .18s ease,color .18s ease;
+    }
+    .drawer-link:hover{
+      background:rgba(255,255,255,.06);
+      border-color:var(--line);
+      color:var(--accent);
+    }
+    .drawer-link.drawer-erp{
+      background:rgba(93,240,168,.08);
+      border-color:rgba(93,240,168,.3);
+      color:var(--accent);
+      margin-top:4px;
+    }
+    .drawer-cv-btn{
+      margin-top:8px;
+      width:100%;
+      justify-content:center;
+      padding:13px 20px;
+      font-size:14.5px;
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
     @media (max-width: 980px){
       .feature-grid{grid-template-columns:repeat(2,1fr)}
       .showcase-grid{grid-template-columns:1fr;text-align:center}
       .showcase-copy{display:flex;flex-direction:column;align-items:center}
       .stats{grid-template-columns:repeat(2,1fr)}
     }
-    @media (max-width: 720px){
+    @media (max-width: 768px){
       .nav-links{display:none}
-      .nav{padding:18px 20px}
-      .section{padding:clamp(64px,16vw,110px) 20px}
-      .hud-legend{display:none}
-      .network-hud{left:12px;bottom:12px;padding:10px 12px;width:calc(100vw - 24px)}
+      .mobile-menu-btn{display:flex}
+      .nav{padding:14px 18px}
+      .nav-cv-btn{display:none}
+      .hero{min-height:100svh;justify-content:flex-start}
+      .hero-inner{padding:clamp(85px,14vh,115px) 18px 40px;max-width:100%}
+      .hero-title{font-size:clamp(32px,9.5vw,46px);letter-spacing:-.02em;line-height:1.06}
+      .hero-sub{font-size:15px;line-height:1.55;max-width:100%}
+      .hero-tags{gap:6px;justify-content:center;margin:18px 0 0}
+      .hero-tags span{font-size:11.5px;padding:5px 11px}
+      .hero-actions{flex-direction:column;width:100%;max-width:320px;margin:30px auto 0;gap:11px}
+      .hero-actions .btn{width:100%;justify-content:center;padding:13px 20px;font-size:14.5px}
+      .logos{padding:0 16px 36px}
+      .logos-row{gap:16px;flex-wrap:wrap;justify-content:center}
+      .logo{font-size:13.5px}
+      .section{padding:clamp(60px,14vw,95px) 18px}
+      .section-head h2{font-size:clamp(26px,7.5vw,36px)}
+      .section-head p{font-size:15px;line-height:1.6}
+      .feature-grid{grid-template-columns:1fr;gap:16px}
+      .feature-card{padding:26px 20px}
+      .showcase-grid{gap:28px}
+      .dash-bars{height:115px;gap:6px}
+      .dash-row{grid-template-columns:85px 1fr;font-size:12px}
+      .stats{grid-template-columns:repeat(2,1fr);gap:12px}
+      .stat-card{padding:20px 16px}
+      .stat-num{font-size:clamp(28px,7.5vw,38px)}
+      .cta-card{padding:38px 20px;border-radius:20px;text-align:center}
+      .cta-card .hero-actions{flex-direction:column;width:100%;max-width:300px;margin:22px auto 0}
+      .footer{flex-direction:column;gap:36px;padding-top:36px;margin-top:40px}
+      .footer-cols{grid-template-columns:repeat(2,1fr);gap:24px}
     }
-    @media (max-width: 560px){
-      .feature-grid{grid-template-columns:1fr}
-      .dash-row{grid-template-columns:90px 1fr}
-      .hero-actions .btn{width:100%;flex:1;justify-content:center}
-      .cta-card{padding:40px 22px}
-      .footer{flex-direction:column}
-    }
-    @media (max-width: 380px){
+    @media (max-width: 480px){
       .stats{grid-template-columns:1fr}
-      .logos-row{gap:18px}
-      .logo{font-size:15px}
+      .footer-cols{grid-template-columns:1fr;gap:22px}
+      .nav-erp-btn span:nth-child(2){display:none}
+      .nav-erp-btn{padding:8px 13px;font-size:12px}
+      .brand{font-size:14px}
     }
     @media (prefers-reduced-motion: reduce){
       html{scroll-behavior:auto}
@@ -713,39 +648,7 @@
   <canvas class="planet-canvas"></canvas>
 
   <!-- Floating Submarine & Terrestrial Fiber-Optic Cable Map Console -->
-  <aside class="network-hud" id="network-hud" aria-label="Global Submarine Fiber-Optic Network Console">
-    <div class="hud-top-row">
-      <span class="hud-status">
-        <span class="hud-dot"></span>
-        <span id="hud-state-text">GLOBAL DWDM SUBMARINE MAP</span>
-      </span>
-      <span class="hud-meta" id="hud-meta-text">198 CABLES · 44 IXPs · TAS-01</span>
-    </div>
-
-    <div class="hud-ticker">
-      <span class="hud-ticker-label">BGP FEED //</span>
-      <span class="hud-ticker-val" id="hud-bgp-ticker">SEA-ME-WE 6 · 126 Tbps · MRS↔ALY↔SIN</span>
-    </div>
-
-    <div class="hud-legend">
-      <span class="hud-leg-item"><i class="hud-swatch" style="background:#5df0a8;box-shadow:0 0 6px #5df0a8"></i>Silk-Optic (TAS-01)</span>
-      <span class="hud-leg-item"><i class="hud-swatch" style="background:#38bdf8;box-shadow:0 0 6px #38bdf8"></i>Submarine Trunk</span>
-      <span class="hud-leg-item"><i class="hud-swatch" style="background:#c084fc;box-shadow:0 0 6px #c084fc"></i>DWDM Express</span>
-      <span class="hud-leg-item"><i class="hud-swatch" style="background:#ffd27a;box-shadow:0 0 6px #ffd27a"></i>IXP Mesh</span>
-    </div>
-
-    <div class="hud-filters" role="group" aria-label="Filter Fiber-Optic Cable Layers">
-      <button type="button" class="hud-filter-btn active" data-filter="0">ALL (198)</button>
-      <button type="button" class="hud-filter-btn" data-filter="1">SUBMARINE</button>
-      <button type="button" class="hud-filter-btn" data-filter="2">TAS-01 SILK</button>
-      <button type="button" class="hud-filter-btn" data-filter="3">IXP MESH</button>
-    </div>
-
-    <div class="hud-actions">
-      <button type="button" class="hud-btn" id="hud-overclock-btn">Overclock DWDM 3.5×</button>
-      <button type="button" class="hud-btn hud-btn-secondary" id="hud-glow-btn">High-Intensity Glow</button>
-    </div>
-  </aside>
+  
 
   <!-- Toast Notification for CV Actions -->
   <div class="cv-toast" id="cv-toast" role="status" aria-live="polite"></div>
@@ -764,9 +667,40 @@
           <a href="#solutions">Telemetry &amp; Stack</a>
           <a href="#top">Network Globe</a>
           <a href="#cta">Contact</a>
+          <a href="https://jedi.uz/login" style="color:var(--accent);font-weight:600;display:inline-flex;align-items:center;gap:4px;">
+            <span>JEDI ERP</span>
+            <span style="font-size:11px;">→</span>
+          </a>
         </div>
-        <button type="button" class="btn btn-ghost" id="download-cv-nav">Download CV</button>
+        <div class="nav-actions">
+          <a href="https://jedi.uz/login" class="btn btn-outline nav-erp-btn" style="padding:9px 16px;font-size:13.5px;border-color:rgba(93,240,168,.4);color:var(--accent)">
+            <span>JEDI ERP</span> <span>→</span>
+          </a>
+          <button type="button" class="btn btn-ghost nav-cv-btn" id="download-cv-nav">Download CV</button>
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+        </div>
       </nav>
+
+      <!-- Mobile Dropdown Navigation Drawer -->
+      <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+        <div class="drawer-content">
+          <a href="#features" class="drawer-link">About &amp; Skills</a>
+          <a href="#solutions" class="drawer-link">Telemetry &amp; Stack</a>
+          <a href="#top" class="drawer-link">Interactive Globe</a>
+          <a href="#cta" class="drawer-link">Contact &amp; Connect</a>
+          <a href="https://jedi.uz/login" class="drawer-link drawer-erp">
+            <span>JEDI ERP Portal</span>
+            <span>→</span>
+          </a>
+          <button type="button" class="btn btn-primary drawer-cv-btn" id="drawer-cv-btn">
+            Download CV (.txt)
+          </button>
+        </div>
+      </div>
 
       <div class="hero-inner">
         <span class="eyebrow" data-reveal style="--rd:20ms">IT STUDENT · SOFTWARE &amp; NETWORK ENGINEER</span>
@@ -1403,11 +1337,38 @@
       const landPoints = buildLandMarkers(planetMesh, getLandElevation);
       buildFiberOpticNetwork(planetMesh, landPoints, CONFIG.planetRadius);
 
-      const cGeo = new THREE.SphereGeometry(CONFIG.planetRadius * CONFIG.cloudHeight, 160, 160);
-      const cMat = new THREE.MeshBasicMaterial({
-        map: cloudTex,
+      // Delicate Atmospheric Cloud Layer ("little cloud not much")
+      const cGeo = new THREE.SphereGeometry(CONFIG.planetRadius * 1.014, 128, 128);
+      const cMat = new THREE.ShaderMaterial({
+        uniforms: {
+          uCloudMap: { value: cloudTex },
+          uSunDir: { value: new THREE.Vector3(-0.75, 0.28, 0.60).normalize() },
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          varying vec3 vNormal;
+          void main() {
+            vUv = uv;
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform sampler2D uCloudMap;
+          uniform vec3 uSunDir;
+          varying vec2 vUv;
+          varying vec3 vNormal;
+          void main() {
+            vec4 c = texture2D(uCloudMap, vUv);
+            if (c.a < 0.02) discard;
+            float ndl = dot(normalize(vNormal), uSunDir);
+            float dayFactor = smoothstep(-0.25, 0.35, ndl);
+            vec3 cloudColor = mix(vec3(0.04, 0.08, 0.16), vec3(1.0, 1.0, 1.0), dayFactor);
+            float alpha = c.a * mix(0.10, 0.32, dayFactor);
+            gl_FragColor = vec4(cloudColor, alpha);
+          }
+        `,
         transparent: true,
-        opacity: 0.32,
         depthWrite: false,
         blending: THREE.NormalBlending,
       });
@@ -2111,17 +2072,7 @@
 
     buildColoredEarthAndNetwork();
 
-    let isOverclocked = false;
-    let isHighGlow = false;
-    let fiberSpeedMult = 1.0;
-    const hudEl = document.getElementById('network-hud');
-    const hudStateText = document.getElementById('hud-state-text');
-    const hudOverclockBtn = document.getElementById('hud-overclock-btn');
-    const hudGlowBtn = document.getElementById('hud-glow-btn');
-    const heroOverclockBtn = document.getElementById('overclock-hero-btn');
-    const hudBgpTicker = document.getElementById('hud-bgp-ticker');
-    const filterBtns = document.querySelectorAll('.hud-filter-btn');
-    const cvToast = document.getElementById('cv-toast');
+        const cvToast = document.getElementById('cv-toast');
     let toastTimeout = null;
 
     function showToast(msg) {
@@ -2132,63 +2083,45 @@
       toastTimeout = setTimeout(() => cvToast.classList.remove('show'), 3400);
     }
 
-    const BGP_FEEDS = [
-      'SEA-ME-WE 6 · 126 Tbps · MRS↔ALY↔SIN',
-      'MAREA TRANS-ATLANTIC · 200 Tbps · IAD↔BIL',
-      'TAS-01↔FRA DE-CIX · 400G ZR+ · RTT 42ms',
-      '2AFRICA CIRCUM-AFRICA · 180 Tbps · 45,000 km',
-      'FASTER TRANS-PACIFIC · 60 Tbps · SJC↔TYO',
-      'SILK-OPTIC BACKBONE · 100G DWDM · TAS-01↔HKG',
-      'ELLALINK SOUTH ATLANTIC · 72 Tbps · LIS↔FOR'
-    ];
-    let bgpIdx = 0;
-    setInterval(() => {
-      if (!hudBgpTicker) return;
-      bgpIdx = (bgpIdx + 1) % BGP_FEEDS.length;
-      hudBgpTicker.textContent = BGP_FEEDS[bgpIdx];
-    }, 3200);
+    // Mobile Hamburger Menu Drawer Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const drawerLinks = document.querySelectorAll('.drawer-link');
+    const drawerCvBtn = document.getElementById('drawer-cv-btn');
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const mode = parseFloat(btn.dataset.filter || '0');
-        if (fiberCableMat) fiberCableMat.uniforms.uFilterMode.value = mode;
-        if (fiberPacketMat) fiberPacketMat.uniforms.uFilterMode.value = mode;
-        showToast(`Cable Map Filter: ${btn.textContent}`);
+    function toggleMobileDrawer(open) {
+      if (!mobileMenuBtn || !mobileDrawer) return;
+      const isOpen = open !== undefined ? open : !mobileDrawer.classList.contains('open');
+      mobileDrawer.classList.toggle('open', isOpen);
+      mobileMenuBtn.classList.toggle('open', isOpen);
+      mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      mobileDrawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    }
+
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMobileDrawer();
       });
+    }
+
+    drawerLinks.forEach(link => {
+      link.addEventListener('click', () => toggleMobileDrawer(false));
     });
 
-    function toggleOverclock() {
-      isOverclocked = !isOverclocked;
-      if (hudEl) hudEl.classList.toggle('overclocked', isOverclocked);
-      if (hudStateText) {
-        hudStateText.textContent = isOverclocked
-          ? 'DWDM BACKBONE: OVERCLOCKED (3.5×)'
-          : 'GLOBAL DWDM SUBMARINE MAP';
+    document.addEventListener('click', (e) => {
+      if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+        if (!mobileDrawer.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          toggleMobileDrawer(false);
+        }
       }
-      if (hudOverclockBtn) {
-        hudOverclockBtn.textContent = isOverclocked ? 'Nominal DWDM (1×)' : 'Overclock DWDM 3.5×';
-      }
-      if (heroOverclockBtn) {
-        heroOverclockBtn.textContent = isOverclocked ? 'Reset Globe Traffic (1×)' : 'Overclock Globe Traffic';
-      }
-      showToast(isOverclocked ? 'Submarine & Terrestrial DWDM Lasers Overclocked to 3.5×' : 'Global Fiber-Optic Backbone Restored to Nominal 1.0×');
-    }
+    });
 
-    function toggleHighGlow() {
-      isHighGlow = !isHighGlow;
-      if (hudGlowBtn) hudGlowBtn.classList.toggle('active', isHighGlow);
-      const boost = isHighGlow ? 1.65 : 1.0;
-      if (fiberCableMat) fiberCableMat.uniforms.uGlowBoost.value = boost;
-      if (fiberPacketMat) fiberPacketMat.uniforms.uGlowBoost.value = boost;
-      if (ixpHubMat) ixpHubMat.uniforms.uGlowBoost.value = boost;
-      showToast(isHighGlow ? 'High-Intensity Optical Gain Enabled' : 'Standard Optical Gain Restored');
-    }
-
-    if (hudOverclockBtn) hudOverclockBtn.addEventListener('click', toggleOverclock);
-    if (heroOverclockBtn) heroOverclockBtn.addEventListener('click', toggleOverclock);
-    if (hudGlowBtn) hudGlowBtn.addEventListener('click', toggleHighGlow);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('open')) {
+        toggleMobileDrawer(false);
+      }
+    });
 
     function downloadCvSummary() {
       const cvContent = [
@@ -2236,12 +2169,14 @@
     const saveCvBtn = document.getElementById('save-cv-btn');
     if (downloadCvNav) downloadCvNav.addEventListener('click', downloadCvSummary);
     if (saveCvBtn) saveCvBtn.addEventListener('click', downloadCvSummary);
+    if (drawerCvBtn) drawerCvBtn.addEventListener('click', () => { downloadCvSummary(); toggleMobileDrawer(false); });
 
     let curP = 0;
     let curX = STOPS_X[0].v;
     let curY = STOPS_Y[0].v;
     let curS = STOPS_S[0].v;
     let spinPhase = 0;
+    let cloudDriftPhase = 0;
     const startTime = performance.now() * 0.001;
     let lastTime = startTime;
 
@@ -2252,8 +2187,7 @@
       const dt = Math.min(0.05, Math.max(0.0001, now - lastTime));
       lastTime = now;
 
-      const targetMult = isOverclocked ? 3.5 : 1.0;
-      fiberSpeedMult += (targetMult - fiberSpeedMult) * Math.min(1, dt * 6.0);
+      fiberSpeedMult = 1.0;
 
       planetTime.value += dt / 12;
       cloudTime.value += dt / 20;
@@ -2271,10 +2205,21 @@
       const pTarget = clamp(window.scrollY / maxScroll, 0, 1);
       curP += (pTarget - curP) * Math.min(1, dt * 4.5);
 
-      const sideScale = clamp(window.innerWidth / 1200, 0.5, 1);
-      const targetX = sample(STOPS_X, curP) * sideScale;
-      const targetY = sample(STOPS_Y, curP);
-      const targetS = sample(STOPS_S, curP);
+      const isMobile = window.innerWidth < 768;
+      const curStopsX = isMobile
+        ? [{p:0,v:0},{p:0.32,v:0},{p:0.64,v:0},{p:1,v:0}]
+        : STOPS_X;
+      const curStopsY = isMobile
+        ? [{p:0,v:-3.35},{p:0.32,v:0.25},{p:0.64,v:-0.20},{p:1,v:0.10}]
+        : STOPS_Y;
+      const curStopsS = isMobile
+        ? [{p:0,v:1.42},{p:0.32,v:0.82},{p:0.64,v:0.78},{p:1,v:0.88}]
+        : STOPS_S;
+
+      const sideScale = isMobile ? 1 : clamp(window.innerWidth / 1200, 0.5, 1);
+      const targetX = sample(curStopsX, curP) * sideScale;
+      const targetY = sample(curStopsY, curP);
+      const targetS = sample(curStopsS, curP);
 
       const k = Math.min(1, dt * 3.2);
       curX += (targetX - curX) * k;
@@ -2294,9 +2239,9 @@
       spinPhase += dt * CONFIG.spin;
       planetGroup.rotation.y = CONFIG.initRotation + spinPhase + curP * Math.PI * 1.6;
 
+      cloudDriftPhase += dt * CONFIG.cloudSpin;
       for (let i = 0; i < cloudMeshes.length; i++) {
-        const cm = cloudMeshes[i];
-        cm.mesh.rotation.y += dt * CONFIG[cm.spinKey];
+        cloudMeshes[i].mesh.rotation.y = planetGroup.rotation.y + cloudDriftPhase;
       }
 
       controls.update();
